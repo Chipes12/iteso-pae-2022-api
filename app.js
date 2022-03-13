@@ -3,16 +3,16 @@ const path = require('path');
 const Database = require('./src/core/database');
 const apiRoutes = require('./src/routes');
 const dotenv = require('dotenv');
+const bp = require("body-parser");
 
 dotenv.config();
 
 const app = express();
-
 const port = process.env.PORT || 3000;
 
 app.use('/assets', express.static(path.join(__dirname, 'public')));
-
-
+app.use(bp.json());
+app.use(bp.urlencoded({ extended: true }));
 app.use('/api', apiRoutes);
 
 app.get('/', (req, res) => {
