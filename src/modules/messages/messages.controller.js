@@ -18,7 +18,10 @@ const MessagesController = {
         });
     },
     create: (req, res) => {
-        res.send('create message');
+        const message = new Message();
+        message.create(req.body).then(result => {
+            if(result) res.sendStatus(201);
+        }).catch(err => res.send('Unable to create message'));
     }
 }
 

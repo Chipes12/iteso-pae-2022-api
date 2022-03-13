@@ -18,7 +18,22 @@ const ChannelsController = {
         });
     },
     create: (req, res) => {
-        res.send('create channel');
+        const channel = new Channel();
+        channel.create(req.body).then(result => {
+            if(result) res.sendStatus(201);
+        }).catch(err => {res.send('Error while creating channel')});
+    },
+    invite: (req, res) => {
+        const channel = new Channel();
+        channel.invite(req).then(result => {
+            if(result) res.send(result);
+        }).catch(err => {res.send('unable to create invitation link')});
+    },
+    join: (req, res) => {
+        const channel = new Channel();
+        channel.join(req).then(result => {
+            if(result) res.send(result);
+        }).catch(err => {res.send(`can't join the channel`)});
     }
 }
 

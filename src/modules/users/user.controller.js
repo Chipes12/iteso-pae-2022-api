@@ -1,19 +1,34 @@
+const User = require("./user.model");
+
 const UsersController = {
     getAll: (req, res) => {
-        res.send('will get users');
+        const user = new User();
+        user.getAll().then(results => {
+            res.send(results);
+        });
     },
-    getId: (req, res) => {
-        res.send(`Usuario ${req.idUser}`);
+    getOne: (req, res) => {
+        const user = new User();
+        user.getOne(req.params.id).then(result => {
+            if(result) {
+                res.send(result);
+            } else {
+                res.sendStatus(404);
+            }
+        });
     },
     create: (req, res) => {
-        res.send('Usuario creado');
+        const user = new User();
+        user.create(req.body).then(result => {
+            if(result) res.sendStatus(201);
+        }).catch(err => {res.send('El correo ya esta en uso')});
     },
-    update: (req, res) => {
-        res.send(`Usuario ${req.idUser}  Actualizado`);
-    },
-    delete: (req, res) => {
-        res.send(`Usuario ${req.idUser} Eliminado`);
+    logIn: (req, res) => {
+        const user = new User();
+        user.logIn(req.body).then(result => {
+            if(result) res.send(result);
+        }).catch(err => {res.send('Credenciales incorrectas')});
     }
 }
-    
+
 module.exports = UsersController;
